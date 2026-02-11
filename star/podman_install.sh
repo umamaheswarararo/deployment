@@ -10,4 +10,4 @@ echo "pulling images"
 podman pull docker.io/starrocks/allin1-ubuntu
 
 echo "starting containers"
-podman-compose -f docker-compose.yml  up -d
+podman-compose -f ./star/docker-compose.yml  up -d
