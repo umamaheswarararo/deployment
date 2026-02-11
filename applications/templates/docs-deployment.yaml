@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emm-docs
+  labels:
+    app: emm-docs
+spec:
+  selector:
+    matchLabels:
+      app: emm-docs
+  replicas: ${DOCS_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: emm-docs
+    spec:
+      containers:
+        - name: emm-docs
+          image: registry.digitalocean.com/tectoro/docs:${DOCS_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmweb
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: "200m"
+            requests:
+              memory: 300Mi
+              cpu: "200m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emm-docs
+spec:
+  selector:
+    app: emm-docs
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---

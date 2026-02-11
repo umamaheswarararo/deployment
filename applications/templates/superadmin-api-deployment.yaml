@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superadmin-api
+  labels:
+    app: superadmin-api
+spec:
+  selector:
+    matchLabels:
+      app: superadmin-api
+  replicas: ${SUPERADMIN_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: superadmin-api
+    spec:
+      containers:
+        - name: superadmin-api
+          image: registry.digitalocean.com/tectoro/superadmin-api:${SUPERADMIN_API_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: superadmin-api
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "20m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superadmin-api
+spec:
+  selector:
+    app: superadmin-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

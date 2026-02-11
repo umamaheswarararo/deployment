@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  starrocks:
+    image: starrocks/allin1-ubuntu
+    container_name: star
+    restart: always
+    ports:
+      - 35300:9030
+      - 35310:8030
+      - 35320:8040
+    volumes:
+      - star_db:/data/db
+volumes:
+  star_db:

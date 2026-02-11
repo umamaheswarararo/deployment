@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: collector
+data:
+  # server settings
+  environment: "${ENVIRONMENT}"
+  module: "collector"
+
+  #middleware
+  middleware_cors_enabled: "${MIDDLEWARE_CORS_ENABLED}"
+
+
+  # mq settings
+  nats_url: "${NATS_URL}"
+  nats_username: "${NATS_USERNAME}"
+  nats_password: "${NATS_PASSWORD}"
+
+  #websocket
+  ws_url: "${WS_URL}"
+
+  #reporting url
+  reporting_url: "${REPORTING_URL}"
+
+  #ssl
+  ssl_enabled: "N"

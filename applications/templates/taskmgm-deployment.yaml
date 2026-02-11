@@ -1,0 +1,98 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task
+  labels:
+    app: task
+spec:
+  selector:
+    matchLabels:
+      app: task
+  replicas: ${TASK_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: task
+    spec:
+      containers:
+        - name: task
+          image: registry.digitalocean.com/tectoro/taskmgm-api:${TASK_API_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: taskapi
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "20m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task
+spec:
+  selector:
+    app: task
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-web
+  labels:
+    app: task-web
+spec:
+  selector:
+    matchLabels:
+      app: task-web
+  replicas: ${TASK_WEB_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: task-web
+    spec:
+      containers:
+        - name: task-web
+          image: registry.digitalocean.com/tectoro/taskmgm-web:${TASK_WEB_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: taskweb
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: "200m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-web
+spec:
+  selector:
+    app: task-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---

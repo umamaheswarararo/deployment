@@ -1,0 +1,102 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pipelines
+data:
+  # server settings
+  environment: "${ENVIRONMENT}"
+  module: "pipelines"
+
+  # s3 settings
+  rep_s3_endpoint: "${PIPELINES_S3_ENDPOINT}"
+  rep_s3_access_key: "${PIPELINES_S3_ACCESS_KEY_ID}"
+  rep_s3_secret_key: "${PIPELINES_S3_SECRET_ACCESS_KEY}"
+  rep_s3_bucket: "${PIPELINES_S3_BUCKET}"
+
+  #REP BACKUP
+  rep_backup_s3_endpoint: "${REP_BACKUP_S3_ENDPOINT}"
+  rep_backup_s3_access_key: "${REP_BACKUP_S3_ACCESS_KEY}"
+  rep_backup_s3_secret_key: "${REP_BACKUP_S3_SECRET_KEY}"
+  rep_backup_s3_bucket: "${REP_BACKUP_S3_BUCKET}"
+
+  # nats settings
+  rep_nats_url: "nats://${NATS_USERNAME}:${NATS_PASSWORD}@${NATS_URL}"
+
+  # star settings
+  rep_star_db_host: "${STAR_DB_HOST}"
+  rep_star_db_port: "${STAR_DB_PORT}"
+  rep_star_db_name: "${STAR_DB_NAME}"
+  rep_star_db_user: "${STAR_DB_USER}"
+  rep_star_db_password: "${STAR_DB_PASSWORD}"
+
+  # other
+  rep_log_level: DEBUG
+
+  #websocket
+  ws_url: "${WS_URL}"
+
+  #reporting url
+  reporting_url: "${REPORTING_URL}"
+
+  # pipeline properties
+  device_update_v1_batchsize: "${DEVICE_UPDATE_V1_BATCHSIZE}"
+  device_update_v1_timeout: "${DEVICE_UPDATE_V1_TIMEOUT}"
+  device_update_v1_backup_batchsize: "${DEVICE_UPDATE_V1_BACKUP_BATCHSIZE}"
+
+  location_v1_batchsize: "${LOCATION_V1_BATCHSIZE}"
+  location_v1_timeout: "${LOCATION_V1_TIMEOUT}"
+  location_v1_backup_batchsize: "${LOCATION_V1_BACKUP_BATCHSIZE}"
+  
+  power_status_v1_batchsize: "${POWER_STATUS_V1_BATCHSIZE}"
+  power_status_v1_timeout: "${POWER_STATUS_V1_TIMEOUT}"
+  power_status_v1_backup_batchsize: "${POWER_STATUS_V1_BACKUP_BATCHSIZE}"
+
+  appusage_v1_batchsize: "${APPUSAGE_V1_BATCHSIZE}"
+  appusage_v1_timeout: "${APPUSAGE_V1_TIMEOUT}"
+  appusage_v1_backup_batchsize: "${APPUSAGE_V1_BACKUP_BATCHSIZE}"
+
+  call_v1_batchsize: "${CALL_V1_BATCHSIZE}"
+  call_v1_timeout: "${CALL_V1_TIMEOUT}"
+  call_v1_backup_batchsize: "${CALL_V1_BACKUP_BATCHSIZE}"
+
+  device_login_v1_batchsize: "${DEVICE_LOGIN_V1_BATCHSIZE}"
+  device_login_v1_timeout: "${DEVICE_LOGIN_V1_TIMEOUT}"
+  device_login_v1_backup_batchsize: "${DEVICE_LOGIN_V1_BACKUP_BATCHSIZE}"
+
+  browser_history_v1_batchsize: "${BROWSER_HISTORY_V1_BATCHSIZE}"
+  browser_history_v1_timeout: "${BROWSER_HISTORY_V1_TIMEOUT}"
+  browser_history_v1_backup_batchsize: "${BROWSER_HISTORY_V1_BACKUP_BATCHSIZE}"
+ 
+  user_update_v1_batchsize: "${USER_UPDATE_V1_BATCHSIZE}"
+  user_update_v1_timeout: "${USER_UPDATE_V1_TIMEOUT}"
+  user_update_v1_backup_batchsize: "${USER_UPDATE_V1_BACKUP_BATCHSIZE}"
+
+  group_update_v1_batchsize: "${GROUP_UPDATE_V1_BATCHSIZE}"
+  group_update_v1_timeout: "${GROUP_UPDATE_V1_TIMEOUT}"
+  group_update_v1_backup_batchsize: "${GROUP_UPDATE_V1_BACKUP_BATCHSIZE}"
+
+  portal_user_activity_v1_batchsize: "${PORTAL_USER_ACTIVITY_V1_BATCHSIZE}"
+  portal_user_activity_v1_timeout: "${PORTAL_USER_ACTIVITY_V1_TIMEOUT}"
+  portal_user_activity_v1_backup_batchsize: "${PORTAL_USER_ACTIVITY_V1_BACKUP_BATCHSIZE}"
+
+  device_compliance_v1_batchsize: "${DEVICE_COMPLIANCE_V1_BATCHSIZE}"
+  device_compliance_v1_timeout: "${DEVICE_COMPLIANCE_V1_TIMEOUT}"
+  device_compliance_v1_backup_batchsize: "${DEVICE_COMPLIANCE_V1_BACKUP_BATCHSIZE}"
+
+  app_update_v1_batchsize: "${APP_UPDATE_V1_BATCHSIZE}"
+  app_update_v1_timeout: "${APP_UPDATE_V1_TIMEOUT}"
+  app_update_v1_backup_batchsize: "${APP_UPDATE_V1_BACKUP_BATCHSIZE}"
+
+  logon_status_v1_batchsize: "${LOGON_STATUS_V1_BATCHSIZE}"
+  logon_status_v1_timeout: "${LOGON_STATUS_V1_TIMEOUT}"
+  logon_status_v1_backup_batchsize: "${LOGON_STATUS_V1_BACKUP_BATCHSIZE}"
+
+  device_update_v2_batchsize: "${DEVICE_UPDATE_V2_BATCHSIZE}"
+  device_update_v2_timeout: "${DEVICE_UPDATE_V2_TIMEOUT}"
+  device_update_v2_backup_batchsize: "${DEVICE_UPDATE_V2_BACKUP_BATCHSIZE}"
+
+
+
+  
+

@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digitalsgng-api
+  labels:
+    app: digitalsgng-api
+spec:
+  selector:
+    matchLabels:
+      app: digitalsgng-api
+  replicas: ${DIGITALSGNG_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: digitalsgng-api
+    spec:
+      containers:
+        - name: digitalsgng-api
+          image: registry.digitalocean.com/tectoro/digitalsgng:${DIGITALSGNG_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: digitalsgngapi
+          ports:
+            - containerPort: 35022
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "20m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: digitalsgng-api
+spec:
+  selector:
+    app: digitalsgng-api
+  ports:
+    - protocol: TCP
+      port: 35022
+      targetPort: 35022
+  type: ClusterIP
+---

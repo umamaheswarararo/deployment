@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-web
+  labels:
+    app: client-web
+spec:
+  selector:
+    matchLabels:
+      app: client-web
+  replicas: ${CLIENT_WEB_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: client-web
+    spec:
+      containers:
+        - name: client-web
+          image: registry.digitalocean.com/tectoro/client-reports-web:${CLIENT_WEB_VERSION}
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "100m"
+            requests:
+              memory: 30Mi
+              cpu: "100m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-web
+spec:
+  selector:
+    app: client-web
+  ports:
+    - protocol: TCP
+      port: 80
+  type: ClusterIP
+---

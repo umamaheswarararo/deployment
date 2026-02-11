@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  labels:
+    app: registry
+spec:
+  selector:
+    matchLabels:
+      app: registry
+  replicas: ${REGISTRY_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+        - name: registry
+          image: registry.digitalocean.com/tectoro/registry:${REGISTRY_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: registry
+          ports:
+            - containerPort: 8091
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "20m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+spec:
+  selector:
+    app: registry
+  ports:
+    - protocol: TCP
+      port: 8091
+      targetPort: 8091
+  type: ClusterIP
+

@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring
+  labels:
+    app: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: monitoring
+  replicas: ${MONITORING_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: monitoring
+    spec:
+      containers:
+        - name: monitoring
+          image: registry.digitalocean.com/tectoro/monitoring:${MONITORING_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: monitoring
+          ports:
+            - containerPort: 8080
+          resources:
+              limits:
+                memory: 250Mi
+                cpu: "100m"
+              requests:
+                memory: 50Mi
+                cpu: "50m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitoring
+spec:
+  selector:
+    app: monitoring
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

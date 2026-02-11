@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: commons
+  labels:
+    app: commons
+spec:
+  selector:
+    matchLabels:
+      app: commons
+  replicas: ${COMMONS_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: commons
+    spec:
+      containers:
+        - name: commons
+          image: registry.digitalocean.com/tectoro/mdm-commons:${COMMONS_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: commons
+          ports:
+            - containerPort: 8080
+          # resources:
+          #   limits:
+          #     memory: 50Mi
+          #     cpu: "20m"
+          #   requests:
+          #     memory: 10Mi
+          #     cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: commons
+spec:
+  selector:
+    app: commons
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

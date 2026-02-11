@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superadmin
+  labels:
+    app: superadmin
+spec:
+  selector:
+    matchLabels:
+      app: superadmin
+  replicas: ${SA_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: superadmin
+    spec:
+      containers:
+        - name: superadmin
+          image: registry.digitalocean.com/tectoro/superadmin:${SA_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmweb
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: "200m"
+            requests:
+              memory: 300Mi
+              cpu: "200m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superadmin
+spec:
+  selector:
+    app: superadmin
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---

@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certmgr
+data:
+  # server settings
+  environment: "${ENVIRONMENT}"
+  module: "certmgr"
+
+  # middleware
+  middleware_cors_enabled: "${MIDDLEWARE_CORS_ENABLED}"
+  middleware_encrypt_enabled: "${MIDDLEWARE_ENCRYPT_ENABLED}"
+  middleware_tokenauth_enabled: "${MIDDLEWARE_TOKENAUTH_ENABLED}"
+  middleware_satokenauth_enabled: "${MIDDLEWARE_SATOKENAUTH_ENABLED}"
+  jwt_secret: "${JWT_SECRET}"
+  sa_jwt_secret: "${SA_JWT_SECRET}"
+  encryption_key: "${ENCRYPTION_KEY}"
+
+  #oidc
+  oidc_redirect_url: "${OIDC_REDIRECT_URL}"
+  oidc_google_client_id: "${OIDC_GOOGLE_CLIENT_ID}"
+  oidc_google_client_secret: "${OIDC_GOOGLE_CLIENT_SECRET}"
+  oidc_microsoft_client_id: "${OIDC_MICROSOFT_CLIENT_ID}"
+  oidc_microsoft_client_secret: "${OIDC_MICROSOFT_CLIENT_SECRET}"
+  oidc_microsoft_entra_id: "${OIDC_MICROSOFT_ENTRA_ID}"
+  oidc_zoho_client_id: "${OIDC_ZOHO_CLIENT_ID}"
+  oidc_zoho_client_secret: "${OIDC_ZOHO_CLIENT_SECRET}"
+
+  # db settings
+  db_url: "${DB_URL}"
+  db_name: ${ENV_PREFIX}-${CERT_DB_NAME}
+
+  # pg settings
+  pgdb_url: "${PGDB_URL}"
+  emm_pgdb_url: "${EMM_PGDB_URL}"
+
+  # redis settings
+  redis_url: "${REDIS_URL}"
+  redis_password: "${REDIS_PASSWORD}"
+
+  # mq settings
+  nats_url: "${NATS_URL}"
+  nats_username: "${NATS_USERNAME}"
+  nats_password: "${NATS_PASSWORD}"
+
+  # es settings
+  os_url: "${OS_URL}"
+  os_index: "${OS_INDEX}"
+  os_username: "${OS_USERNAME}"
+  os_password: "${OS_PASSWORD}"
+
+  # smtp settings
+  smtp_host: "${SMTP_HOST}"
+  smtp_port: "${SMTP_PORT}"
+  smtp_user: "${SMTP_USER}"
+  smtp_password: "${SMTP_PASSWORD}"
+
+  # aws s3 settings
+  s3_region: "${S3_REGION}"
+  s3_access_key_id: "${S3_ACCESS_KEY_ID}"
+  s3_secret_access_key: "${S3_SECRET_ACCESS_KEY}"
+  s3_endpoint: "${S3_ENDPOINT}"
+  s3_pub_endpoint: "${S3_PUB_ENDPOINT}"
+  s3_bucket: "${S3_BUCKET}"
+
+  # pubsub
+  gcp_pubsub_project_id: "${GCP_PUBSUB_PROJECT_ID}"
+  gcp_pubsub_subscription_id: "${GCP_PUBSUB_SUBSCRIPTION_ID}"
+
+  # firebase${REACT_APP_URL}
+  fb_project_id: "${FB_PROJECT_ID}"
+
+  # playemm
+  callback_url: "${CALLBACK_URL}"
+  qrcode_server_url: "${QRCODE_SERVER_URL}"
+
+  #nats_url
+  natsui_url: "${NATSUI_URL}"
+
+  #cert mgr
+  work_folder: "${WORK_FOLDER}"
+  scep_challenge: "${SCEP_CHALLENGE}"
+
+  #websocket
+  ws_url: "${WS_URL}"
+
+  #reporting url
+  reporting_url: "${REPORTING_URL}"
+
+---
