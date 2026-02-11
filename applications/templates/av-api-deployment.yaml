@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: av-api
+  labels:
+    app: av-api
+spec:
+  selector:
+    matchLabels:
+      app: av-api
+  replicas: ${AV_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: av-api
+    spec:
+      containers:
+        - name: av-api
+          image: registry.digitalocean.com/tectoro/av-api:${AV_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: avapi
+          ports:
+            - containerPort: 35007
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "20m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: av-api
+spec:
+  selector:
+    app: av-api
+  ports:
+    - protocol: TCP
+      port: 35007
+      targetPort: 35007
+  type: ClusterIP
+---

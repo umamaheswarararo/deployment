@@ -1,0 +1,98 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: taskweb
+data:
+  REACT_APP_API_URL: https://taskmgr.mdmdev.tectoro.com/taskmgm
+  REACT_APP_URL: https://taskmgr.mdmdev.tectoro.com
+  REACT_APP_COMPANY_ID: "${REACT_APP_COMPANY_ID}"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: taskapi
+data:
+  # server settings
+  environment: "${ENVIRONMENT}"
+  module: "taskmgm"
+
+  # middleware
+  middleware_cors_enabled: "${MIDDLEWARE_CORS_ENABLED}"
+  middleware_encrypt_enabled: "${MIDDLEWARE_ENCRYPT_ENABLED}"
+  middleware_tokenauth_enabled: "${MIDDLEWARE_TOKENAUTH_ENABLED}"
+  middleware_satokenauth_enabled: "${MIDDLEWARE_SATOKENAUTH_ENABLED}"
+  jwt_secret: "${JWT_SECRET}"
+  sa_jwt_secret: "${SA_JWT_SECRET}"
+  encryption_key: "${ENCRYPTION_KEY}"
+
+  #oidc
+  oidc_redirect_url: "${OIDC_REDIRECT_URL}"
+  oidc_google_client_id: "${OIDC_GOOGLE_CLIENT_ID}"
+  oidc_google_client_secret: "${OIDC_GOOGLE_CLIENT_SECRET}"
+  oidc_microsoft_client_id: "${OIDC_MICROSOFT_CLIENT_ID}"
+  oidc_microsoft_client_secret: "${OIDC_MICROSOFT_CLIENT_SECRET}"
+  oidc_microsoft_entra_id: "${OIDC_MICROSOFT_ENTRA_ID}"
+  oidc_zoho_client_id: "${OIDC_ZOHO_CLIENT_ID}"
+  oidc_zoho_client_secret: "${OIDC_ZOHO_CLIENT_SECRET}"
+
+  # db settings
+  db_url: "${DB_URL}"
+  mysql_url:  "${MYSQL_URL}"
+  db_name: "${ENV_PREFIX}-${TASK_DB_NAME}"
+
+  # pg settings
+  pgdb_url: "${PGDB_URL}"
+
+  # redis settings
+  redis_url: "${TASK_REDIS_URL}"
+  redis_password: "${TASK_REDIS_PWD}"
+
+  # mq settings
+  nats_url: "${NATS_URL}"
+  nats_username: "${NATS_USERNAME}"
+  nats_password: "${NATS_PASSWORD}"
+
+  # es settings
+  os_url: "${OS_URL}"
+  os_index: "${OS_INDEX}"
+  os_username: "${OS_USERNAME}"
+  os_password: "${OS_PASSWORD}"
+
+  # smtp settings
+  smtp_host: "${SMTP_HOST}"
+  smtp_port: "${SMTP_PORT}"
+  smtp_user: "${SMTP_USER}"
+  smtp_password: "${SMTP_PASSWORD}"
+
+  # aws s3 settings
+  s3_region: "${S3_REGION}"
+  s3_access_key_id: "${S3_ACCESS_KEY_ID}"
+  s3_secret_access_key: "${S3_SECRET_ACCESS_KEY}"
+  s3_endpoint: "${S3_ENDPOINT}"
+  s3_pub_endpoint: "${S3_PUB_ENDPOINT}"
+  s3_bucket: "${S3_BUCKET}"
+
+
+  # pubsub
+  gcp_pubsub_project_id: "${GCP_PUBSUB_PROJECT_ID}"
+  gcp_pubsub_subscription_id: "${GCP_PUBSUB_SUBSCRIPTION_ID}"
+
+  # firebase
+  fb_project_id: "${FB_PROJECT_ID}"
+
+  # files
+  file_adapter_type: "${FILE_ADAPTER_TYPE}"
+  file_adapter_bucket: "${FILE_ADAPTER_BUCKET}"
+
+  # taskmgm
+  metric_url: "${METRIC_URL}"
+  idm_url: "${IDM_URL}"
+  tenants: "${TENANTS}"
+  google_routes_api_key: "${GOOGLE_ROUTES_API_KEY}"
+  routes_api_server_address: "${ROUTES_API_SERVER_ADDRESS}"
+  
+
+---
+

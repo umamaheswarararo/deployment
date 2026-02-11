@@ -1,0 +1,237 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prod-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: portal.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: emm-web
+                port:
+                  number: 80
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: emm-api
+                port:
+                  number: 8080
+          - path: /chat
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-api
+                port:
+                  number: 35009 
+          - path: /messages
+            pathType: Prefix
+            backend:
+              service:
+                name: messages-api
+                port:
+                  number: 35011
+          - path: /idm
+            pathType: Prefix
+            backend:
+              service:
+                name: idm
+                port:
+                  number: 35004
+          - path: /collector
+            pathType: Prefix
+            backend:
+              service:
+                name: collector
+                port:
+                  number: 35013
+          - path: /andmgmt
+            pathType: Prefix
+            backend:
+              service:
+                name: andmgmt-api
+                port:
+                  number: 35008
+          - path: /reporting
+            pathType: Prefix
+            backend:
+              service:
+                name: reporting
+                port:
+                  number: 35020                  
+          - path: /natsui
+            pathType: Prefix
+            backend: 
+              service: 
+                name: monitoring
+                port: 
+                  number: 35014
+          - path: /ios
+            pathType: Prefix
+            backend: 
+              service: 
+                name: ios-api
+                port: 
+                  number: 35017
+          - path: /certmgr
+            pathType: Prefix
+            backend: 
+              service: 
+                name: certmgr
+                port: 
+                  number: 8080
+          - path: /av
+            pathType: Prefix
+            backend: 
+              service: 
+                name: av-api
+                port: 
+                  number: 35007
+          - path: /commons
+            pathType: Prefix
+            backend: 
+              service: 
+                name: commons
+                port: 
+                  number: 35015
+          - path: /androidtv
+            pathType: Prefix
+            backend:
+              service:
+                name: andtv-api
+                port:
+                  number: 35006
+          - path: /files
+            pathType: Prefix
+            backend:
+              service:
+                name: files
+                port:
+                  number: 35010
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: superadmin
+                port:
+                  number: 80
+          - path: /win
+            pathType: Prefix
+            backend: 
+              service: 
+                name: windows
+                port: 
+                  number: 35002
+          - path: /EnrollmentServer
+            pathType: Prefix
+            backend: 
+              service: 
+                name: windows
+                port: 
+                  number: 35002
+          - path: /scheduler
+            pathType: Prefix
+            backend:
+              service:
+                name: scheduler
+                port:
+                  number: 35018
+          - path: /enroll
+            pathType: Prefix
+            backend:
+              service:
+                name: web-app
+                port:
+                  number: 80
+          - path: /scheduler
+            pathType: Prefix
+            backend:
+              service:
+                name: scheduler
+                port:
+                  number: 8080
+          - path: /android
+            pathType: Prefix
+            backend:
+              service:
+                name: android-api
+                port:
+                  number: 35005
+          - path: /client
+            pathType: Prefix
+            backend:
+              service:
+                name: client-web
+                port:
+                  number: 80
+          - path: /clientreports
+            pathType: Prefix
+            backend:
+              service:
+                name: client-api
+                port:
+                  number: 8080
+          - path: /superadmin
+            pathType: Prefix
+            backend:
+              service:
+                name: superadmin-api
+                port:
+                  number: 35001
+          - path: /dpenroll
+            pathType: Prefix
+            backend:
+              service:
+                name: enroll-web
+                port:
+                  number: 80
+          - path: /supply
+            pathType: Prefix
+            backend:
+              service:
+                name: supply-web
+                port:
+                  number: 80
+          - path: /supplymgmt
+            pathType: Prefix
+            backend:
+              service:
+                name: supply-api
+                port:
+                  number: 35021
+          - path: /digitalsgng
+            pathType: Prefix
+            backend:
+              service:
+                name: digitalsgng-api
+                port:
+                  number: 35022
+          - path: /linux
+            pathType: Prefix
+            backend:
+              service:
+                name: linux-api
+                port:
+                  number: 35003
+          - path: /support
+            pathType: Prefix
+            backend:
+              service:
+                name: ticketing-web
+                port:
+                  number: 80
+          - path: /ticket
+            pathType: Prefix
+            backend:
+              service:
+                name: ticketing-api
+                port:
+                  number: 35027

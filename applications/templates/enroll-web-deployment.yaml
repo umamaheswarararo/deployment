@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enroll-web
+  labels:
+    app: enroll-web
+spec:
+  selector:
+    matchLabels:
+      app: enroll-web
+  replicas: ${EN_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: enroll-web
+    spec:
+      containers:
+        - name: enroll-web
+          image: registry.digitalocean.com/tectoro/enroll-web:${EN_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmweb
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: "200m"
+            requests:
+              memory: 300Mi
+              cpu: "200m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enroll-web
+spec:
+  selector:
+    app: enroll-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---

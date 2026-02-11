@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: andtv-api
+  labels:
+    app: andtv-api
+spec:
+  selector:
+    matchLabels:
+      app: andtv-api
+  replicas: ${ANDTV_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: andtv-api
+    spec:
+      containers:
+        - name: andtv-api
+          image: registry.digitalocean.com/tectoro/androidtv-api:${ANDTV_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: andtvapi
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 100Mi
+              cpu: "50m"
+            requests:
+              memory: 90Mi
+              cpu: "50m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: andtv-api
+spec:
+  selector:
+    app: andtv-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

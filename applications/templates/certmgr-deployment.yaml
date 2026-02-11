@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: certmgr
+  labels:
+    app: certmgr
+spec:
+  selector:
+    matchLabels:
+      app: certmgr
+  replicas: ${CERTMGR_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: certmgr
+    spec:
+      containers:
+        - name: certmgr
+          image: registry.digitalocean.com/tectoro/cert-mgr:${CERTMGR_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: certmgr
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 200Mi
+              cpu: "80m"
+            requests:
+              memory: 40Mi
+              cpu: "40m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: certmgr
+spec:
+  selector:
+    app: certmgr
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  labels:
+    app: web-app
+spec:
+  selector:
+    matchLabels:
+      app: web-app
+  replicas: ${WEB_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+        - name: web-app
+          image: registry.digitalocean.com/tectoro/signin-webapp:${SIGN_WEBAPP}
+          envFrom:
+            - configMapRef:
+                name: emmweb
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: "200m"
+            requests:
+              memory: 300Mi
+              cpu: "200m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app
+spec:
+  selector:
+    app: web-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---

@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  nats:
+    image: nats:2.9.17
+    container_name: ttns
+    restart: always
+    command: [ "-c", "/nats.conf" ]
+    ports:
+      - '35700:4222' 
+    volumes:
+      - ./nats.conf:/nats.conf
+      -  nats_data:/data/db
+volumes:
+   nats_data:

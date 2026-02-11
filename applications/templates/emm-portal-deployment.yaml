@@ -1,0 +1,191 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emm-web
+  labels:
+    app: emm-web
+spec:
+  selector:
+    matchLabels:
+      app: emm-web
+  replicas: ${WEB_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: emm-web
+    spec:
+      containers:
+        - name: emm-web
+          image: registry.digitalocean.com/tectoro/emm-web:${WEB_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmweb
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: "200m"
+            requests:
+              memory: 300Mi
+              cpu: "200m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emm-web
+spec:
+  selector:
+    app: emm-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emm-api
+  labels:
+    app: emm-api
+spec:
+  selector:
+    matchLabels:
+      app: emm-api
+  replicas: ${API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: emm-api
+    spec:
+      containers:
+        - name: emm-api
+          image: registry.digitalocean.com/tectoro/emm-portal-api:${PORTAL_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmapi
+          ports:
+            - containerPort: 8080
+          # resources:
+          #   limits:
+          #     memory: 2Gi
+          #     cpu: "700m"
+          #   requests:
+          #     memory: 1Gi
+          #     cpu: "500m"
+
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emm-api
+spec:
+  selector:
+    app: emm-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emm-jobs
+  labels:
+    app: emm-jobs
+spec:
+  selector:
+    matchLabels:
+      app: emm-jobs
+  replicas: ${JOBS_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: emm-jobs
+    spec:
+      containers:
+        - name: emm-jobs
+          image: registry.digitalocean.com/tectoro/emm-jobs:${PORTAL_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmapi
+          # resources:
+          #   limits:
+          #     memory: 2Gi
+          #     cpu: "700m"
+          #   requests:
+          #     memory: 1Gi
+          #     cpu: "500m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emm-jobs
+spec:
+  selector:
+    app: emm-jobs
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emm-messaging
+  labels:
+    app: emm-messaging
+spec:
+  selector:
+    matchLabels:
+      app: emm-messaging
+  replicas: ${MESSAGING_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: emm-messaging
+    spec:
+      containers:
+        - name: emm-messaging
+          image: registry.digitalocean.com/tectoro/emm-messaging:${PORTAL_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: emmapi
+          # resources:
+          #   limits:
+          #     memory: 1Gi
+          #     cpu: "700m"
+          #   requests:
+          #     memory: 1Gi
+          #     cpu: "500m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emm-messaging
+spec:
+  selector:
+    app: emm-messaging
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+

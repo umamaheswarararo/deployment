@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: andmgmt-api
+  labels:
+    app: andmgmt-api
+spec:
+  selector:
+    matchLabels:
+      app: andmgmt-api
+  replicas: ${ANDMGMT_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: andmgmt-api
+    spec:
+      containers:
+        - name: andmgmt-api
+          image: registry.digitalocean.com/tectoro/andmgmt-api:${ANDMGMT_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: andmgmtapi
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: andmgmt-api
+spec:
+  selector:
+    app: andmgmt-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

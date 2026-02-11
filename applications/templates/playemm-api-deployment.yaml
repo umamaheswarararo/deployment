@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playemm-api
+  labels:
+    app: playemm-api
+spec:
+  selector:
+    matchLabels:
+      app: playemm-api
+  replicas: ${PLAYEMM_API_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: playemm-api
+    spec:
+      containers:
+        - name: playemm-api
+          image: registry.digitalocean.com/tectoro/playemm-api:${PLAYEMM_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: playemmapi
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 50Mi
+              cpu: "20m"
+            requests:
+              memory: 10Mi
+              cpu: "10m"
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: playemm-api
+spec:
+  selector:
+    app: playemm-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

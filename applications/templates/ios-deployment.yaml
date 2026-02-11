@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ios-api
+  labels:
+    app: ios-api
+spec:
+  selector:
+    matchLabels:
+      app: ios-api
+  replicas: ${IOS_REPLICAS}
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: ios-api
+    spec:
+      containers:
+        - name: ios-api
+          image: registry.digitalocean.com/tectoro/ios-api:${IOS_IMAGE_VERSION}
+          envFrom:
+            - configMapRef:
+                name: iosapi
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: doregistry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ios-api
+spec:
+  selector:
+    app: ios-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
