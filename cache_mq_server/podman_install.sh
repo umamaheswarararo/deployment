@@ -12,7 +12,7 @@ podman pull docker.io/redis:7.2.1
 podman pull docker.io/opensearchproject/opensearch:2.15.0
 
 echo "starting containers"
-podman-compose -f ./nats/docker-compose.yml  up -d
-podman-compose -f ./redis/docker-compose.yml up -d 
-podman-compose -f ./ttns/docker-compose.yml  up -d
-podman-compose -f ./opensearch/docker-compose.yml up -d
+podman-compose -f ./cache_mq_server/nats/docker-compose.yml  up -d
+podman-compose -f ./cache_mq_server/redis/docker-compose.yml up -d 
+podman-compose -f ./cache_mq_server/ttns/docker-compose.yml  up -d
+podman-compose -f ./cache_mq_server/opensearch/docker-compose.yml up -d

@@ -8,4 +8,4 @@ echo "pulling images"
 podman pull docker.io/mongo:7
 
 echo "starting containers"
-podman-compose -f docker-compose.yml up -d
+podman-compose -f ./mongo/docker-compose.yml up -d
