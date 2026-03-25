@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Installing mongodb container"
-chmod +x ./mongo/podman_install.sh
-./mongo/podman_install.sh
+# echo "Installing mongodb container"
+# chmod +x ./mongo/podman_install.sh
+# ./mongo/podman_install.sh
 
 echo "Installing nginx container"
 chmod +x ./nginx/install_nginx.sh
