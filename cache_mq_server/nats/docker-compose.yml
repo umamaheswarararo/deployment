@@ -6,14 +6,6 @@ services:
     container_name: nats
     restart: always
     command: ["-c", "/nats-server.conf"]
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"   
-          memory: "512M" 
-        reservations:
-          cpus: "0.5"   
-          memory: "256M"
     ports:
       - '35600:4222'
     volumes:
