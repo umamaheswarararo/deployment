@@ -2,13 +2,23 @@ version: "3.9"
 
 services:
   nats:
-    image: nats:2.9.17
+    image: nats:2.10.22
     container_name: nats
     restart: always
-    command: [ "-js" ]
+    command: ["-c", "/nats-server.conf"]
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"   
+          memory: "512M" 
+        reservations:
+          cpus: "0.5"   
+          memory: "256M"
     ports:
       - '35600:4222'
-    volumes: 
-      - nats_data:/data/db
-volumes: 
-   nats_data:
+    volumes:
+      - nats_data:/data
+      - ./nats-server.conf:/nats-server.conf
+
+volumes:
+  nats_data:
